@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>LightningClass · 你的 AI 实践通关</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div id="app" class="app">
+    <!-- ============================================================
+         VIEW: Entry (入场)
+         ============================================================ -->
+    <section id="view-entry" class="entry">
+      <div class="entry-card">
+        <div class="mascot">💎</div>
+        <h1 class="entry-title">LightningClass</h1>
+        <p class="entry-subtitle">两小时·20 关·解锁你的 AI 应用能力</p>
+
+        <div style="text-align:left;">
+          <label class="label" for="nick">起个暱称</label>
+          <input id="nick" class="input" type="text" maxlength="16" placeholder="例如：小风、Linda、阿杰" autocomplete="off" />
+        </div>
+
+        <div style="text-align:left;">
+          <label class="label" style="margin-top:20px">选个头像</label>
+          <div id="avatar-picker" class="avatar-picker"></div>
+        </div>
+
+        <button id="btn-enter" class="btn btn-primary btn-lg btn-block">进入候场厅</button>
+
+        <p style="font-size:12px;color:var(--ink-mute);margin-top:16px">
+          匿名进入·无需注册·开放体验
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VIEW: Lobby (候场)
+         ============================================================ -->
+    <section id="view-lobby" class="hidden">
+      <header class="topbar">
+        <div class="topbar-brand">
+          <div class="logo">⚡</div>
+          <span>LightningClass</span>
+        </div>
+        <div id="lobby-topbar-roster" class="topbar-roster"></div>
+      </header>
+
+      <div class="lobby">
+        <div class="mascot">💎</div>
+        <h2>你已就位！</h2>
+        <p>等主持人开课·当前在线 <span id="lobby-count">0</span> 人</p>
+
+        <div class="lobby-roster" id="lobby-roster" style="margin-top:32px"></div>
+
+        <div class="card-soft" style="max-width:520px;margin:32px auto 0">
+          <h3 style="font-size:14px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">⏳ 上课前可以做</h3>
+          <ul style="font-size:14px;list-style:none;text-align:left;line-height:2">
+            <li>✓ 在另一个设备/浏览器登录 <strong>ChatGPT</strong> 或 <strong>Claude</strong></li>
+            <li>✓ 准备好可以快速 Ctrl+C / Ctrl+V 的状态</li>
+            <li>✓ 喝口水，去趟洗手间 😊</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VIEW: Play (主战场)
+         ============================================================ -->
+    <section id="view-play" class="hidden">
+      <header class="topbar">
+        <div class="topbar-brand">
+          <div class="logo">⚡</div>
+          <span id="play-event-title">Node 1</span>
+        </div>
+        <div id="play-topbar-roster" class="topbar-roster"></div>
+        <div class="topbar-stats">
+          <div class="streak-pill"><span class="icon">🔥</span><span id="play-streak">0</span></div>
+          <div class="xp-pill"><span class="icon">⚡</span><span id="play-xp">0</span> XP</div>
+        </div>
+      </header>
+
+      <div class="play">
+        <div class="container">
+          <!-- Node Map -->
+          <div id="node-map" class="node-map mb-16"></div>
+
+          <!-- Node Header -->
+          <div id="node-header" class="node-header">
+            <div class="node-header-row">
+              <div id="node-icon" class="node-icon-big">🤖</div>
+              <div class="node-meta">
+                <div id="node-phase" class="node-phase-tag">破冰阶段</div>
+                <div id="node-title" class="node-title">节点标题</div>
+                <div id="node-diff" class="node-diff">★ · 90秒</div>
+              </div>
+              <div id="node-countdown" class="countdown hidden">
+                <span>⏱</span>
+                <span id="countdown-num">--:--</span>
+              </div>
+            </div>
+
+            <div id="node-tools" class="node-tools"></div>
+            <div id="node-question" class="node-question">题目内容...</div>
+            <div id="node-warning" class="node-warning hidden"></div>
+
+            <!-- Prompt template -->
+            <div id="prompt-block" class="prompt-block hidden">
+              <button class="copy-btn" id="copy-prompt">📋 一键复制</button>
+              <span id="prompt-content"></span>
+            </div>
+
+            <div id="node-external" class="hidden" style="margin-top:12px">
+              <a id="external-link" target="_blank" class="btn btn-secondary btn-sm">🔗 在新窗口打开 AI 工具</a>
+            </div>
+          </div>
+
+          <!-- State: Reveal (等待开放) -->
+          <div id="state-reveal" class="card hidden mt-16 center">
+            <div class="mascot">💎</div>
+            <h3 style="font-size:18px;margin:12px 0">题目已公布，等主持人开放提交</h3>
+            <p class="text-mute text-sm">先用上面的「一键复制」准备好你的 AI 工具</p>
+          </div>
+
+          <!-- State: Open (提交中) -->
+          <div id="state-open" class="hidden mt-16">
+            <div class="submit-area card">
+              <textarea id="submit-input" placeholder="把 AI 的回答粘贴到这里…"></textarea>
+              <div class="submit-bar">
+                <span class="submit-counter"><span id="char-count">0</span> 字符</span>
+                <span id="submit-status" class="submit-status"></span>
+                <button id="btn-submit" class="btn btn-primary">⚡ 提交</button>
+              </div>
+            </div>
+
+            <div id="waterfall-open" class="waterfall mt-16">
+              <div class="waterfall-header">
+                <h3>🌊 实时提交瀑布流</h3>
+                <span class="count"><span id="open-sub-count">0</span> 份</span>
+              </div>
+              <div id="open-sub-list"></div>
+            </div>
+          </div>
+
+          <!-- State: Voting (投票中) -->
+          <div id="state-voting" class="hidden mt-16">
+            <div class="card-soft center">
+              <p style="font-weight:700;font-size:15px;color:var(--ink-soft);margin-bottom:4px">
+                ✋ 提交已关闭，开始投票
+              </p>
+              <p class="text-sm text-mute">每人有 3 票，投给你最欣赏的答案。不能投自己。</p>
+            </div>
+
+            <div class="waterfall mt-16">
+              <div class="waterfall-header">
+                <h3>📊 同侪作品</h3>
+                <span class="count"><span id="voting-sub-count">0</span> 份</span>
+              </div>
+              <div id="voting-sub-list"></div>
+            </div>
+          </div>
+
+          <!-- State: Result (揭榜) -->
+          <div id="state-result" class="hidden mt-16">
+            <div class="card-soft center" style="background:linear-gradient(135deg,var(--sun-soft),var(--peach-soft))">
+              <div style="font-size:32px;margin-bottom:8px">🏆</div>
+              <h3 style="font-size:18px;margin-bottom:4px">本关揭榜！</h3>
+              <p class="text-sm" style="color:var(--ink-soft)">主持人正在点评·下方按得票排序</p>
+            </div>
+
+            <div class="waterfall mt-16">
+              <div id="result-sub-list"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vote bar (fixed bottom, only during voting) -->
+      <div id="vote-bar" class="vote-bar hidden">
+        <span class="vote-bar-text">你的选票</span>
+        <div class="vote-bar-tokens" id="vote-tokens">
+          <div class="vote-token">❤</div>
+          <div class="vote-token">❤</div>
+          <div class="vote-token">❤</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VIEW: Finale (颁奖典礼)
+         ============================================================ -->
+    <section id="view-finale" class="hidden">
+      <div class="finale">
+        <h1>🎉 培训圆满落幕</h1>
+        <p class="subtitle">过去两小时，你一起完成了 20 道挑战</p>
+
+        <div id="finale-stats" class="finale-stats"></div>
+
+        <h2 style="font-size:24px;margin:24px 0;color:white">🏆 全场前三</h2>
+        <div id="podium" class="podium"></div>
+
+        <div id="my-summary" class="my-summary"></div>
+
+        <button class="btn btn-primary btn-lg mt-24" onclick="location.reload()">重新进入</button>
+      </div>
+    </section>
+
+    <!-- Toast stack -->
+    <div id="toast-stack" class="toast-stack"></div>
+  </div>
+
+  <script src="/learner.js"></script>
+</body>
+</html>
