@@ -1,18 +1,20 @@
 {
   "name": "lightning-class",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
-  "description": "LightningClass · 多人实时 AI 实践通关培训平台",
+  "description": "LightningClass v2 · 多人实时 AI 实践通关培训平台",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js",
-    "test": "node test-e2e.mjs"
+    "dev": "node --watch server.js"
   },
   "engines": {
     "node": ">=18.0.0"
   },
   "dependencies": {
+    "@preact/signals": "^2.9.1",
+    "htm": "^3.1.1",
+    "preact": "^10.29.2",
     "ws": "^8.18.0"
   }
 }
