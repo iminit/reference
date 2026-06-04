@@ -3,8 +3,33 @@
 一个 **2 小时、多人在线、Duolingo 风格** 的 AI 实践培训平台。
 基于 Preact + Signals + WebSocket 重构，零构建步骤，单文件后端。
 
-> 想立即开课？跳到 [3 分钟起步](#3-分钟起步)
-> 想了解架构？读 [`../design/ai-training-platform`](../design/ai-training-platform/README.md)
+> 🎬 **想立刻看效果？** 用浏览器（手机或电脑）打开 [`public/demo.html`](./public/demo.html) — 单文件、零依赖、完整体验流程。可直接转发给朋友。
+> 🚀 想立即开课？跳到 [3 分钟起步](#3-分钟起步)
+> 🏛 想了解架构？读 [`../design/ai-training-platform`](../design/ai-training-platform/README.md)
+
+---
+
+## 🎬 单文件体验 demo
+
+不想配环境？打开 [`public/demo.html`](./public/demo.html) 即可：
+
+- **单文件 67KB** — 所有 CSS/JS/数据内联，零外部依赖
+- **手机优先设计** — 在任何浏览器（iOS Safari、Android Chrome、桌面浏览器）丝滑流畅
+- **完整流程** — 欢迎页 → 入场 → 候场 → Node 1（提交→投票→揭榜）→ 快进 2-19 → 颁奖典礼
+- **可转发** — 当附件直接发给朋友；或托管到 GitHub Pages / Netlify / Vercel（拖拽即可）
+
+```bash
+# 本地直接打开
+open app/public/demo.html      # macOS
+xdg-open app/public/demo.html  # Linux
+start app/public/demo.html     # Windows
+
+# 或在已启动的服务器上访问
+http://localhost:3000/demo.html
+```
+
+> **demo 是单设备体验** — 朋友们各自打开都能看到完整流程，但不是真实多人。
+> 真实多人需要部署服务（看下面）。
 
 ---
 
